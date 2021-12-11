@@ -4,15 +4,17 @@ using Heuristics.TechEval.Core.Models;
 
 namespace Heuristics.TechEval.Core {
 
-	public class DataContext : DbContext {
+    public class DataContext : DbContext, IDataContext
+    {
 
-		public DataContext() : base("Database") { }
+        public DataContext() : base("Database") { }
 
-		public DbSet<Member> Members { get; set; }
-		public DbSet<Category> Categories { get; set; }
+        public DbSet<Member> Members { get; set; }
+        public DbSet<Category> Categories { get; set; }
 
-		protected override void OnModelCreating(DbModelBuilder modelBuilder) {
-			modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
-		}
-	}
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
+        }
+    }
 }

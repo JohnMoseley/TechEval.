@@ -50,6 +50,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IDataContext.cs" />
     <Compile Include="Migrations\202112101616008_AddIndexers.cs" />
     <Compile Include="Migrations\202112101616008_AddIndexers.designer.cs">
       <DependentUpon>202112101616008_AddIndexers.cs</DependentUpon>
