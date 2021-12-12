@@ -15,5 +15,17 @@ namespace Heuristics.TechEval.Web.Models
         public string Name { get; set; }
         public string Email { get; set; }
         public Category Category { get; set; }
+
+        public string DisplayCategory
+        {
+            get
+            {
+                if(Category!=null)
+                {
+                    return this.Category.Name;
+                }
+                return "No Category!";
+            }
+        }
     }
 }

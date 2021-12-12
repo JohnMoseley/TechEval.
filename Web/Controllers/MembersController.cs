@@ -6,21 +6,16 @@ using Heuristics.TechEval.Core.Models;
 using Newtonsoft.Json;
 using AutoMapper;
 using System.Collections.Generic;
+using Heuristics.TechEval.Core.Repository;
 
 namespace Heuristics.TechEval.Web.Controllers {
 
 	public class MembersController : Controller {
 
-		private readonly IDataContext _context;
+		private readonly IMembersRepository _context;
 
 		public MembersController() {
-			_context = new DataContext();
-
-			//Initialize the mapper
-			Mapper.Initialize(cfg => {
-				cfg.CreateMap<Member, ViewModel>();
-				cfg.CreateMap<NewMember, Member>();
-			});
+			_context = new MembersRepository(new DataContext());
 		}
 
 		/// <summary>
@@ -30,7 +25,7 @@ namespace Heuristics.TechEval.Web.Controllers {
 		public ActionResult List() {
 
 			//Get Data Model
-			var list = _context.Members.ToList();
+			var list = _context.ListMembers();
 		
 			//Map Datamodel to view model
 			List<ViewModel> allMembers =
@@ -46,8 +41,8 @@ namespace Heuristics.TechEval.Web.Controllers {
 				Email = data.Email
 			};
 
-			_context.Members.Add(newMember);
-			_context.SaveChanges();
+			_context.AddMember(newMember);
+			
 
 			return Json(JsonConvert.SerializeObject(newMember));
 		}
