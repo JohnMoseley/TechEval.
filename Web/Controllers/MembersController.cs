@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using AutoMapper;
 using System.Collections.Generic;
 using Heuristics.TechEval.Core.Repository;
+using System;
 
 namespace Heuristics.TechEval.Web.Controllers {
 
@@ -16,6 +17,7 @@ namespace Heuristics.TechEval.Web.Controllers {
 
 		public MembersController() {
 			_context = new MembersRepository(new DataContext());
+			ViewBag.Message = "Nothing";
 		}
 
 		/// <summary>
@@ -36,13 +38,26 @@ namespace Heuristics.TechEval.Web.Controllers {
 
 		[HttpPost]
 		public ActionResult New(NewMember data) {
-			var newMember = new Member {
-				Name = data.Name,
-				Email = data.Email
-			};
+			Member newMember = null;
 
-			_context.AddMember(newMember);
-			
+			try
+            {
+			     newMember = new Member
+				{
+					Name = data.Name,
+					Email = data.Email
+				};
+
+				_context.AddMember(newMember);
+
+			}
+			catch (Exception ex)
+            {
+
+               ViewBag.Message = ex.Message;
+
+			}
+		
 
 			return Json(JsonConvert.SerializeObject(newMember));
 		}

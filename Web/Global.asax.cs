@@ -12,6 +12,7 @@ namespace Heuristics.TechEval.Web {
 			FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
 			RouteConfig.RegisterRoutes(RouteTable.Routes);
 			BundleConfig.RegisterBundles(BundleTable.Bundles);
+
 			//Initialize the mapper
 			Mapper.Initialize(cfg => {
 				cfg.CreateMap<Member, ViewModel>();

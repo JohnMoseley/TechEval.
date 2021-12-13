@@ -9,7 +9,7 @@ namespace Heuristics.TechEval.Tests.DataContext
         
         public MembersTest()
         {
-            
+          
         }
         [TestMethod]
         public void ListMemberTest()

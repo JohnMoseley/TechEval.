@@ -113,7 +113,7 @@ namespace Heuristics.TechEval.Core.Repository
                 StringBuilder errors = new StringBuilder();
                 foreach (var failure in results.Errors)
                 {
-                    errors.Append($"Property: {failure.PropertyName} Error Code: {failure.ErrorCode}{Environment.NewLine}");
+                    errors.Append($"Property: {failure.PropertyName} Error: {failure.ErrorMessage} Code: {failure.ErrorCode}{Environment.NewLine}");
                 }
                 throw new Exception(errors.ToString());
             }
