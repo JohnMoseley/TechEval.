@@ -9,5 +9,7 @@ namespace Heuristics.TechEval.Core.Repository
         Member EditMember(Member member);
         Member GetMemberById(int id);
         List<Member> ListMembers();
+
+        List<Category> ListCategories();
     }
 }

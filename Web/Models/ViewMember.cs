@@ -9,7 +9,7 @@ namespace Heuristics.TechEval.Web.Models
     /// <summary>
     /// Dto for view
     /// </summary>
-    public class ViewModel
+    public class ViewMember
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -27,5 +27,7 @@ namespace Heuristics.TechEval.Web.Models
                 return "No Category!";
             }
         }
+
+       
     }
 }

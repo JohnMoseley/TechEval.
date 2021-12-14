@@ -95,7 +95,7 @@ namespace Heuristics.TechEval.Core.Repository
             Member item = context.Members.FirstOrDefault(m => m.Name.ToLower() == member.Name.ToLower());
             if (item != null)
             {
-                duplicate = (member.Id > 0 && member.Id != item.Id);
+                duplicate = (member.Id != item.Id);
             }
             if (duplicate)
             {
@@ -113,12 +113,26 @@ namespace Heuristics.TechEval.Core.Repository
                 StringBuilder errors = new StringBuilder();
                 foreach (var failure in results.Errors)
                 {
-                    errors.Append($"Property: {failure.PropertyName} Error: {failure.ErrorMessage} Code: {failure.ErrorCode}{Environment.NewLine}");
+                    errors.Append($"Property: {failure.PropertyName} Error: {failure.ErrorMessage} Code: {failure.ErrorCode}; ");
                 }
                 throw new Exception(errors.ToString());
             }
             return true;
         }
 
+        public List<Category> ListCategories()
+        {
+            List<Category> list = new List<Category>();
+            try
+            {
+                list = this.context.Categories.ToList();
+            }
+            catch
+            {
+                list = new List<Category>();
+                throw;
+            }
+            return list;
+        }
     }
 }

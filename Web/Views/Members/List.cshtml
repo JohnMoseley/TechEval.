@@ -1,4 +1,5 @@
-﻿@model List<Heuristics.TechEval.Web.Models.ViewModel>
+﻿@model Heuristics.TechEval.Web.Models.ViewAll
+
 
 @{
     ViewBag.Title = "Members";
@@ -19,7 +20,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var member in Model)
+        @foreach (var member in Model.Members)
         {
             <tr>
                 <th scope="row">@member.Id</th>
@@ -31,10 +32,11 @@
     </tbody>
 </table>
 
-@if (ViewBag.Message != null)
-{
-    <span class="alert-danger">@ViewBag.Message</span>
-}
+
+
+<div class="alert alert-danger">
+   <label id="err"></label>
+</div>
 
 <div class="modal fade" id="NewMemberModal">
     <div class="modal-dialog" role="document">
@@ -55,6 +57,13 @@
                         <label for="Email">Email Address</label>
                         <input type="email" class="form-control" id="Email" name="Email" placeholder="you@awesome.com" />
                     </div>
+                    <div class="form-group">
+                       @Html.Label("Category")
+                       @Html.DropDownList("CategoryId",
+                           Model.Categories,
+                            "Select Category",
+                            new {@class = "form-control"})
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <input type="submit" class="btn btn-primary" value="Save" />
@@ -69,8 +78,12 @@
     $(document).ready(function () {
         $("#NewMemberForm").ajaxForm({
             success: function (formData, jqForm, options) {
+                document.getElementById("err").innerHTML = "";
                 // sure would be nice if we didn't have to reload the whole page...
                 document.location.reload();
+            },
+            error: function (results) {
+                document.getElementById("err").innerHTML = results.responseText;
             }
         });
     });

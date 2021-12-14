@@ -15,8 +15,11 @@ namespace Heuristics.TechEval.Web {
 
 			//Initialize the mapper
 			Mapper.Initialize(cfg => {
-				cfg.CreateMap<Member, ViewModel>();
+				cfg.CreateMap<Member, ViewMember>();
 				cfg.CreateMap<NewMember, Member>();
+				cfg.CreateMap<Category, SelectListItem>()
+				.ForMember(dest => dest.Text, act => act.MapFrom(src => src.Name))
+				.ForMember(dest => dest.Value, act => act.MapFrom(src => src.Id.ToString()));
 			});
 		}
 	}

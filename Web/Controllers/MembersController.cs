@@ -8,6 +8,8 @@ using AutoMapper;
 using System.Collections.Generic;
 using Heuristics.TechEval.Core.Repository;
 using System;
+using System.Net;
+using System.Web;
 
 namespace Heuristics.TechEval.Web.Controllers {
 
@@ -17,7 +19,7 @@ namespace Heuristics.TechEval.Web.Controllers {
 
 		public MembersController() {
 			_context = new MembersRepository(new DataContext());
-			ViewBag.Message = "Nothing";
+			
 		}
 
 		/// <summary>
@@ -27,13 +29,18 @@ namespace Heuristics.TechEval.Web.Controllers {
 		public ActionResult List() {
 
 			//Get Data Model
-			var list = _context.ListMembers();
-		
-			//Map Datamodel to view model
-			List<ViewModel> allMembers =
-				Mapper.Map<List<Member>, List<ViewModel>>(list);
+			var members = _context.ListMembers();
+			var categories = _context.ListCategories();
+			
 
-			return View(allMembers);
+			//Map Datamodels to view model
+			List<ViewMember> allMembers =
+				Mapper.Map<List<Member>, List<ViewMember>>(members);
+			List<SelectListItem> allCategories =
+				Mapper.Map<List<Category>, List<SelectListItem>>(categories);
+
+			 var model = new ViewAll() { Categories = allCategories, Members = allMembers };
+			return View(model);
 		}
 
 		[HttpPost]
@@ -42,10 +49,11 @@ namespace Heuristics.TechEval.Web.Controllers {
 
 			try
             {
-			     newMember = new Member
+				newMember = new Member
 				{
 					Name = data.Name,
-					Email = data.Email
+					Email = data.Email,
+					CategoryId = data.CategoryId == 0 ? null: data.CategoryId
 				};
 
 				_context.AddMember(newMember);
@@ -54,11 +62,9 @@ namespace Heuristics.TechEval.Web.Controllers {
 			catch (Exception ex)
             {
 
-               ViewBag.Message = ex.Message;
-
+				HttpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+				return Json(JsonConvert.SerializeObject(HttpUtility.HtmlEncode(ex.Message)));
 			}
-		
-
 			return Json(JsonConvert.SerializeObject(newMember));
 		}
 	}
