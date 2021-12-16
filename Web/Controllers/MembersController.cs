@@ -51,12 +51,19 @@ namespace Heuristics.TechEval.Web.Controllers {
             {
 				newMember = new Member
 				{
+					Id = data.Id,
 					Name = data.Name,
 					Email = data.Email,
 					CategoryId = data.CategoryId == 0 ? null: data.CategoryId
 				};
-
-				_context.AddMember(newMember);
+				if (data.Id == 0)
+				{
+					_context.AddMember(newMember);
+				}
+				else
+                {
+					_context.EditMember(newMember);
+                }
 
 			}
 			catch (Exception ex)

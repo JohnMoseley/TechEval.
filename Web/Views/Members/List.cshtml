@@ -22,12 +22,14 @@
     <tbody>
         @foreach (var member in Model.Members)
         {
-            <tr>
-                <th scope="row">@member.Id</th>
-                <td>@member.Name</td>
-                <td>@member.Email</td>
-                <td>@member.DisplayCategory</td>
-            </tr>
+        <tr>
+            <th scope="row">
+                <button type="button" class="btn btn-info"  data-toggle="model" data-target="#NewMemberModal">Edit</button></th>
+                @*<th scope="row">@member.Id</th>*@
+            <td>@member.Name</td>
+            <td>@member.Email</td>
+            <td>@member.DisplayCategory</td>
+        </tr>
         }
     </tbody>
 </table>
